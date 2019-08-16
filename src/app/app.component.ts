@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ElectronService } from './providers/electron.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
@@ -8,10 +9,12 @@ import { AppConfig } from '../environments/environment';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  router: string;
+  title = 'app';
   constructor(public electronService: ElectronService,
-    private translate: TranslateService) {
-
+    private translate: TranslateService, private _router: Router) {
+    this.router = _router.url;
     translate.setDefaultLang('en');
     console.log('AppConfig', AppConfig);
 
@@ -21,6 +24,21 @@ export class AppComponent {
       console.log('NodeJS childProcess', electronService.childProcess);
     } else {
       console.log('Mode web');
+    }
+  }
+  tabs: any[] = [];
+  selectedIndex = 0;
+
+  /* tslint:disable-next-line:no-any */
+  log(args: any[]): void {
+    console.log(args);
+  }
+  ngOnInit(): void {
+    for (let i = 0; i < 11; i++) {
+      this.tabs.push({
+        name: `Tab ${i}`,
+        content: `Content of tab ${i}`
+      });
     }
   }
 }
