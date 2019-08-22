@@ -1,5 +1,3 @@
-<nz-tabset [nzTabPosition]="nzTabPosition" [(nzSelectedIndex)]="selectedIndex" (nzSelectChange)="log([$event])" *ngIf="router != ''">
-    <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab.name" (nzSelect)="log(['select', tab])" (nzClick)="log(['click', tab])" (nzDeselect)="log(['deselect', tab])">
-    </nz-tab>
-</nz-tabset>
+<app-tabs *ngIf="isHomeRoute()"></app-tabs>
+<app-command-bar *ngIf="isHomeRoute()"></app-command-bar>
 <router-outlet></router-outlet>

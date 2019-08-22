@@ -1,0 +1,7 @@
+<nz-tabset [nzTabPosition]="nzTabPosition" [(nzSelectedIndex)]="selectedIndex" (nzSelectChange)="log([$event])" [nzTabBarExtraContent]="addButton" [nzTabBarStyle]="{margin: 0}">
+    <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab.name" (nzSelect)="log(['select', tab])" (nzClick)="switchContent(tab)">
+    </nz-tab>
+</nz-tabset>
+<ng-template #addButton>
+    <i class="ant-tabs-new-tab" nz-icon nzType="plus" (click)="newTab()"></i>
+</ng-template>
