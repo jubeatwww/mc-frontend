@@ -3,13 +3,14 @@ import { Router } from '@angular/router';
 import { ElectronService } from './providers/electron.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
-
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  pathParam: Observable<string>;
   router: string;
   title = 'app';
   constructor(public electronService: ElectronService,
@@ -26,19 +27,13 @@ export class AppComponent implements OnInit {
       console.log('Mode web');
     }
   }
-  tabs: any[] = [];
   selectedIndex = 0;
-
+  isHomeRoute() {
+    return !this._router.isActive('/', true);
+  }
   /* tslint:disable-next-line:no-any */
   log(args: any[]): void {
     console.log(args);
   }
-  ngOnInit(): void {
-    for (let i = 0; i < 11; i++) {
-      this.tabs.push({
-        name: `Tab ${i}`,
-        content: `Content of tab ${i}`
-      });
-    }
-  }
+  ngOnInit(): void {}
 }

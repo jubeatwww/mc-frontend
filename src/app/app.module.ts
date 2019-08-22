@@ -22,6 +22,9 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { DatasetVisComponent } from './components/dataset-vis/dataset-vis.component';
 import { LoginComponent } from './components/home/login/login.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { TabsComponent } from './components/tabs/tabs.component';
+import { TabsServiceService } from './providers/tabs-service.service';
+import { CommandBarComponent } from './components/command-bar/command-bar.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -35,7 +38,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     WebviewDirective,
     DatasetVisComponent,
     LoginComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    TabsComponent,
+    CommandBarComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +57,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  providers: [ElectronService],
+  providers: [ElectronService, TabsServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

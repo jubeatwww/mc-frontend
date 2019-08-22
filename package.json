@@ -86,6 +86,7 @@
   },
   "dependencies": {
     "@angular/animations": "^8.2.2",
+    "@antv/g2": "^3.5.8-beta.1",
     "ng-alain": "^8.2.0",
     "ng-zorro-antd": "^8.2.0"
   },
