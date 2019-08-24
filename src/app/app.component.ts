@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ElectronService } from './core/electron/electron.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ElectronService } from '@@core/electron/electron.service';
 import { AppConfig } from '../environments/environment';
 import { Observable } from 'rxjs';
 @Component({
