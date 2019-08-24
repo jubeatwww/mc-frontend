@@ -12,9 +12,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { ElectronService } from './providers/electron.service';
+import { ElectronService } from './core/electron/electron.service';
 
-import { WebviewDirective } from './directives/webview.directive';
+import { WebviewDirective } from './shared/directives/webview.directive';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -22,9 +22,9 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { DatasetVisComponent } from './components/dataset-vis/dataset-vis.component';
 import { LoginComponent } from './components/home/login/login.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
-import { TabsComponent } from './components/tabs/tabs.component';
-import { TabsServiceService } from './providers/tabs-service.service';
-import { CommandBarComponent } from './components/command-bar/command-bar.component';
+import { TabsComponent } from './core/tabs/tabs.component';
+import { TabsService } from './core/tabs/tabs.service';
+import { CommandBarComponent } from './core/command-bar/command-bar.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -57,7 +57,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  providers: [ElectronService, TabsServiceService],
+  providers: [ElectronService, TabsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

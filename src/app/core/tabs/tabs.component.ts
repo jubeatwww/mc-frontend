@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { TabsServiceService } from '../../providers/tabs-service.service';
-import { Tab } from '../../modals/tab';
+import { TabsService } from './tabs.service';
+import { Tab } from './tab';
 
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.less']
 })
-export class TabsComponent implements OnInit {
+export class TabsComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   tabs: any[] = [];
-  constructor(private tabsService: TabsServiceService, private router: Router) { }
+  constructor(private tabsService: TabsService, private router: Router) { }
   ngOnInit() {
     this.subscription = this.tabsService.observableTabs
       .subscribe(tabs => {
@@ -20,7 +20,10 @@ export class TabsComponent implements OnInit {
         tabs.forEach(tab =>
           this.tabs.push(tab)
         );
-    });
+      });
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
   switchContent(tab: Tab) {
     console.log(tab.link);

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TabsServiceService } from './tabs-service.service';
+import { TabsService } from './tabs.service';
 
-describe('TabsServiceService', () => {
+describe('TabsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: TabsServiceService = TestBed.get(TabsServiceService);
+    const service: TabsService = TestBed.get(TabsService);
     expect(service).toBeTruthy();
   });
 });
