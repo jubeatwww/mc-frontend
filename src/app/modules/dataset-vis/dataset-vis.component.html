@@ -1,7 +1,7 @@
 <div nz-row>
     <div nz-col nzSpan="12">
         <nz-card nzTitle="Database">
-            <app-spreadsheet></app-spreadsheet>
+            <app-spreadsheet *ngIf="!!spreadsheet" [spreadsheet]="spreadsheet"></app-spreadsheet>
         </nz-card>
     </div>
 
