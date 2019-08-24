@@ -1,10 +1,19 @@
 import { Component, OnInit, Input, HostListener, ChangeDetectionStrategy } from '@angular/core';
-import {
-  SpreadSheetGrid,
-  SpreadSheetRange,
-  SpreadSheetSelectedGridRange,
-  SpreadSheet
-} from './spreadsheet.types';
+import { SpreadSheet } from '@@modules/dataset-vis/models/spreadsheet';
+
+interface SpreadSheetGrid {
+  row: number;
+  column: number;
+}
+
+type SpreadSheetRange = [number, number];
+
+interface SpreadSheetSelectedGridRange {
+  start: SpreadSheetGrid;
+  current: SpreadSheetGrid;
+  row: SpreadSheetRange;
+  column: SpreadSheetRange;
+}
 
 @Component({
   selector: 'app-spreadsheet',

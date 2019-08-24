@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import G2 from '@antv/g2/build/g2';
-import { SpreadSheet } from './components/spreadsheet/spreadsheet.types';
+import { mockSpreadSheet } from './mocks/spreadsheet.mock';
 
 @Component({
   selector: 'app-dataset-vis',
@@ -8,18 +8,7 @@ import { SpreadSheet } from './components/spreadsheet/spreadsheet.types';
   styleUrls: ['./dataset-vis.component.less']
 })
 export class DatasetVisComponent implements OnInit {
-  spreadsheet: SpreadSheet = {
-    columns: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
-    rows: [1, 2, 3, 4, 5, 6],
-    data: [
-      [3, 7, 3, 8, 3, 6, 3],
-      [],
-      [],
-      [],
-      [7, 4, 8, 3, 3, 8, 4],
-      []
-    ]
-  }
+  spreadsheet = mockSpreadSheet;
 
   style = {
     display: 'block',
