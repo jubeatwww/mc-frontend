@@ -15,10 +15,10 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { DatasetVisComponent } from './components/dataset-vis/dataset-vis.component';
-import { LoginComponent } from './components/home/login/login.component';
-import { WelcomeComponent } from './components/welcome/welcome.component';
+import { HomeComponent } from './modules/home/home.component';
+import { DatasetVisComponent } from './modules/dataset-vis/dataset-vis.component';
+import { LoginComponent } from './modules/home/login/login.component';
+import { WelcomeComponent } from './modules/welcome/welcome.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
