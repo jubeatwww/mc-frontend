@@ -41,4 +41,7 @@ export class TabsComponent implements OnInit, OnDestroy {
     this.tabsService.eventChange();
   }
 
+  log(param) {
+    console.log(param);
+  }
 }
