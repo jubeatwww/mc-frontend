@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { TabsServiceService } from '../../providers/tabs-service.service';
+import { Component, OnInit } from '@angular/core';
+import { TabsService } from '@@core/tabs/tabs.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-welcome',
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor(private tabsService: TabsServiceService, private router: Router) { }
+  constructor(private tabsService: TabsService, private router: Router) { }
   ngOnInit() { }
   changeRoute(link: string, name: string) {
     this.router.navigate([link]);

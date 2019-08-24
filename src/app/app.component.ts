@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ElectronService } from './providers/electron.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ElectronService } from '@@core/electron/electron.service';
 import { AppConfig } from '../environments/environment';
 import { Observable } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.less']
 })
 export class AppComponent implements OnInit {
   pathParam: Observable<string>;

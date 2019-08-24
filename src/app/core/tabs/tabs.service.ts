@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Tab } from '../modals/tab';
 import { BehaviorSubject } from 'rxjs';
+import { Tab } from './tab';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TabsServiceService {
+export class TabsService {
   private tabs = new Map<Number, Tab>();
   private actId = 1;
   observableTabs = new BehaviorSubject< Map<Number, Tab>>(this.tabs);

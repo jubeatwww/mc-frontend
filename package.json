@@ -65,7 +65,7 @@
     "electron-reload": "1.4.0",
     "jasmine-core": "3.3.0",
     "jasmine-spec-reporter": "4.2.1",
-    "karma": "3.1.1",
+    "karma": "^4.2.0",
     "karma-chrome-launcher": "2.2.0",
     "karma-coverage-istanbul-reporter": "2.0.4",
     "karma-jasmine": "2.0.1",
@@ -86,7 +86,7 @@
   },
   "dependencies": {
     "@angular/animations": "^8.2.2",
-    "@antv/g2": "^3.5.8-beta.1",
+    "@antv/g2": "^3.5.7",
     "ng-alain": "^8.2.0",
     "ng-zorro-antd": "^8.2.0"
   },

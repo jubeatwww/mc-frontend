@@ -1,8 +1,8 @@
-import { HomeComponent } from './components/home/home.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { WelcomeComponent } from './components/welcome/welcome.component';
-import { DatasetVisComponent } from './components/dataset-vis/dataset-vis.component';
+import { HomeComponent } from '@@modules/home/home.component';
+import { WelcomeComponent } from '@@modules/welcome/welcome.component';
+import { DatasetVisComponent } from '@@modules/dataset-vis/dataset-vis.component';
 
 const routes: Routes = [
     {
@@ -20,7 +20,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, {useHash: true})],
+    imports: [RouterModule.forRoot(routes, { useHash: true })],
     exports: [RouterModule]
 })
 export class AppRoutingModule { }

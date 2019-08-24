@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/welcome']);
   }
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({

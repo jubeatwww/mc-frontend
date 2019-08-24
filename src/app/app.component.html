@@ -1,3 +1,5 @@
-<app-tabs *ngIf="isHomeRoute()"></app-tabs>
-<app-command-bar *ngIf="isHomeRoute()"></app-command-bar>
+<ng-container *ngIf="isHomeRoute()">
+	<app-command-bar></app-command-bar>
+	<app-tabs></app-tabs>
+</ng-container>
 <router-outlet></router-outlet>
