@@ -1,7 +1,7 @@
 <div nz-row>
     <div nz-col nzSpan="12">
         <nz-card nzTitle="Database">
-
+            <app-spreadsheet></app-spreadsheet>
         </nz-card>
     </div>
 
@@ -17,9 +17,10 @@
                     <label nz-radio [ngStyle]="style" nzValue="B">Option B</label>
                     <label nz-radio [ngStyle]="style" nzValue="C">Option C</label>
                     <label nz-radio [ngStyle]="style" nzValue="M">
-                  More...
-                  <input type="text" nz-input *ngIf="radioValue == 'M'" style="width: 100px; margin-left: 10px;" />
-                </label>
+                        More...
+                        <input type="text" nz-input *ngIf="radioValue == 'M'"
+                            style="width: 100px; margin-left: 10px;" />
+                    </label>
                 </nz-radio-group>
             </nz-card>
             <nz-card nzType="inner" style="margin-top:16px;" nzTitle="Computation">
@@ -28,8 +29,8 @@
                 </nz-input-group>
                 <ng-container *ngTemplateOutlet="minimalGraph"></ng-container>
 
-                <ng-template #suffixTemplate><i nz-icon nz-tooltip class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="inputValue" (click)="inputValue = null"></i
-              ></ng-template>
+                <ng-template #suffixTemplate><i nz-icon nz-tooltip class="ant-input-clear-icon" nzTheme="fill"
+                        nzType="close-circle" *ngIf="inputValue" (click)="inputValue = null"></i></ng-template>
             </nz-card>
         </nz-card>
         <ng-template #extraTemplate>

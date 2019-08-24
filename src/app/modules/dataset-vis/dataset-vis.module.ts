@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '@@shared/shared.module';
 
 import { DatasetVisComponent } from './dataset-vis.component';
+import { SpreadsheetComponent } from './components/spreadsheet/spreadsheet.component';
 
 @NgModule({
   declarations: [
-    DatasetVisComponent
+    DatasetVisComponent,
+    SpreadsheetComponent
   ],
   imports: [
     SharedModule
