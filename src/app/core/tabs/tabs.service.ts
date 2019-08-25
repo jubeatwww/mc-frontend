@@ -1,38 +1,131 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Tab } from './tab';
+import { Subject, Observable, Subscriber } from 'rxjs';
+import { Router } from '@angular/router';
+import { Tab, ITab } from './tab';
+
+enum TabAction {
+  ADD,
+  DELETE,
+  SWITCH,
+  MODIFY,
+}
+
+interface TabEvent {
+  action: TabAction;
+  payload: {
+    id?: number;
+    tab?: Tab | ITab;
+  };
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class TabsService {
-  private tabs = new Map<Number, Tab>();
-  private actId = 1;
-  observableTabs = new BehaviorSubject< Map<Number, Tab>>(this.tabs);
+  private tabs = new Map<number, Tab>();
+  private activeTabId = 1;
+  private maxId = 1;
 
-  constructor() {
-    this.tabs.set(1, new Tab(1, 'Welcome', '/welcome'));
+  private tabSubscriber = new Subscriber<TabEvent>({
+    next: (e: TabEvent) => {
+      const { tabs } = this;
+      const { action, payload: { id, tab } } = e;
+      switch (action) {
+        case TabAction.ADD:
+          const newId = this._addTab(tab, id);
+          this.activeTabId = newId;
+          return;
+        case TabAction.SWITCH:
+          this.activeTabId = id;
+          this.router.navigate([tabs.get(id).current.url]);
+          return;
+        default:
+          console.log('undefined action');
+          return;
+      }
+    },
+  });
+
+  observableTabs = new Subject<TabEvent>();
+
+  constructor(private router: Router) {
+    this.observableTabs.subscribe(this.tabSubscriber);
+
+    this.tabSubscriber.next({
+      action: TabAction.ADD,
+      payload: {
+        id: 1,
+        tab: new Tab(1, { name: 'Welcome', url: '/welcome' }),
+      },
+    });
   }
-  eventChange() {
-    this.observableTabs.next(this.tabs);
+
+  public push(tabInfo: ITab, targetId?: number): void {
+    const id: number = targetId ? targetId : this.activeTabId;
+    this.tabs.get(id).push({ ...tabInfo });
+    this.router.navigate([tabInfo.url]);
   }
-  getTabs(): Map<Number, Tab> {
-    this.eventChange();
+
+  public prev(targetId?: number) {
+    const id: number = targetId ? targetId : this.activeTabId;
+    const tab: ITab = this.tabs.get(id).prev();
+    if (tab) {
+      this.router.navigate([tab.url]);
+    }
+  }
+
+  public next(targetId?: number) {
+    const id: number = targetId ? targetId : this.activeTabId;
+    const tab: ITab = this.tabs.get(id).next();
+    if (tab) {
+      this.router.navigate([tab.url]);
+    }
+  }
+
+  public getTabs(): Map<number, Tab> {
     return this.tabs;
   }
-  setTab(id: number, link: string, name: string): void {
-    this.tabs.set(id, new Tab(id, name, link));
-    this.eventChange();
+
+  public getActiveTabId(): number {
+    return this.activeTabId;
   }
-  changeActId(id: number) {
-    this.actId = id;
+
+  private _genNextId(): number {
+    this.maxId += 1;
+    return this.maxId;
   }
-  getActId(): number {
-    return this.actId;
+
+  public switchTab(id: number) {
+    this.observableTabs.next({
+      action: TabAction.SWITCH,
+      payload: { id },
+    });
   }
-  addTabs(tab: Tab): void {
-    this.tabs.set(
-      tab.id
-    , tab);
+
+  public addTab(tab: Tab | ITab, id?: number): void {
+    this.observableTabs.next({
+      action: TabAction.ADD,
+      payload: { id, tab },
+    });
+  }
+
+  private _addTab(tab: Tab | ITab, id?: number): number {
+    const { tabs } = this;
+    if (tab instanceof Tab) {
+      tabs.set(tab.id, tab);
+      return;
+    }
+
+    if (id) {
+      if (tabs.has(id)) {
+        throw new Error('Tab ID already exists');
+      }
+      tabs.set(id, new Tab(id, { ...tab }));
+      return;
+    }
+
+    const newId = this._genNextId();
+    tabs.set(newId, new Tab(newId, { ...tab }));
+    return newId;
   }
 }

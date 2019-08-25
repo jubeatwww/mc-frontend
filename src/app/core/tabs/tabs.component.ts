@@ -1,6 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
 import { TabsService } from './tabs.service';
 import { Tab } from './tab';
 
@@ -9,36 +7,21 @@ import { Tab } from './tab';
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.less']
 })
-export class TabsComponent implements OnInit, OnDestroy {
-  private subscription: Subscription;
-  tabs: any[] = [];
-  constructor(private tabsService: TabsService, private router: Router) { }
+export class TabsComponent implements OnInit {
+  tabs: Map<number, Tab>;
+
+  constructor(private tabsService: TabsService) { }
+
   ngOnInit() {
-    this.subscription = this.tabsService.observableTabs
-      .subscribe(tabs => {
-        this.tabs = [];
-        tabs.forEach(tab =>
-          this.tabs.push(tab)
-        );
-      });
+    this.tabs = this.tabsService.getTabs();
   }
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+
   switchContent(tab: Tab) {
-    console.log(tab.link);
-    this.router.navigate([tab.link]);
-    this.tabsService.changeActId(tab.id);
+    this.tabsService.switchTab(tab.id);
   }
-  getTime() {
-    // tslint:disable-next-line:no-bitwise
-    return Date.now() / 1000 | 0;
-  }
+
   newTab(): void {
-    this.tabsService.addTabs(
-      new Tab(this.getTime(), 'Welcome', '/welcome')
-    );
-    this.tabsService.eventChange();
+    this.tabsService.addTab({ name: 'Welcome', url: '/welcome' });
   }
 
   log(param) {
