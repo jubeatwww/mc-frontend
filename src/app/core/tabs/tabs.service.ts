@@ -118,7 +118,10 @@ export class TabsService {
     const { tabs } = this;
     if (tab instanceof Tab) {
       tabs.push(tab);
-      return;
+      if (tab.id > this.maxId) {
+          this.maxId = tab.id;
+      }
+      return tab.id;
     }
 
     const newId = this._genNextId();
