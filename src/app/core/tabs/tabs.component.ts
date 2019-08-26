@@ -8,7 +8,7 @@ import { Tab } from './tab';
   styleUrls: ['./tabs.component.less']
 })
 export class TabsComponent implements OnInit {
-  tabs: Map<number, Tab>;
+  tabs: Tab[];
 
   constructor(private tabsService: TabsService) { }
 
@@ -16,8 +16,8 @@ export class TabsComponent implements OnInit {
     this.tabs = this.tabsService.getTabs();
   }
 
-  switchContent(tab: Tab) {
-    this.tabsService.switchTab(tab.id);
+  switchContent(id: number) {
+    this.tabsService.switchTab(id);
   }
 
   newTab(): void {

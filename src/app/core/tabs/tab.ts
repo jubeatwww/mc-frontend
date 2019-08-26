@@ -1,4 +1,4 @@
-export interface ITab {
+export interface INavigation {
   name: string;
   url: string;
   metadata?: any;
@@ -8,14 +8,14 @@ export class Tab {
   public id: number;
   private pivot = 0;
   private top = 0;
-  private history: ITab[] = [];
+  private history: INavigation[] = [];
 
-  constructor(id: number, info: ITab) {
+  constructor(id: number, info: INavigation) {
     this.id = id;
     this.history.push({ ...info });
   }
 
-  public push(info: ITab): void {
+  public push(info: INavigation): void {
     const { top, pivot } = this;
     if (pivot === top) {
       this.pivot += 1;
@@ -28,7 +28,7 @@ export class Tab {
     this.top = this.pivot;
   }
 
-  public next(): ITab | null {
+  public next(): INavigation | null {
     const { history, pivot } = this;
     if (history[pivot + 1]) {
       this.pivot += 1;
@@ -37,7 +37,7 @@ export class Tab {
     return null;
   }
 
-  public prev(): ITab | null {
+  public prev(): INavigation | null {
     const { history, pivot } = this;
     if (history[pivot - 1]) {
       this.pivot -= 1;

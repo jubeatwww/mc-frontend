@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable, Subscriber } from 'rxjs';
 import { Router } from '@angular/router';
-import { Tab, ITab } from './tab';
+import { Tab, INavigation } from './tab';
 
 enum TabAction {
   ADD,
@@ -14,7 +14,7 @@ interface TabEvent {
   action: TabAction;
   payload: {
     id?: number;
-    tab?: Tab | ITab;
+    tab?: Tab | INavigation;
   };
 }
 
@@ -22,9 +22,9 @@ interface TabEvent {
   providedIn: 'root'
 })
 export class TabsService {
-  private tabs = new Map<number, Tab>();
-  private activeTabId = 1;
-  private maxId = 1;
+  private tabs: Tab[] = [];
+  private activeTabId = 0;
+  private maxId = 0;
 
   private tabSubscriber = new Subscriber<TabEvent>({
     next: (e: TabEvent) => {
@@ -32,12 +32,17 @@ export class TabsService {
       const { action, payload: { id, tab } } = e;
       switch (action) {
         case TabAction.ADD:
-          const newId = this._addTab(tab, id);
+          const newId = this._addTab(tab);
           this.activeTabId = newId;
+          if (tab instanceof Tab) {
+            this.router.navigate([tab.current.url]);
+          } else {
+            this.router.navigate([tab.url]);
+          }
           return;
         case TabAction.SWITCH:
           this.activeTabId = id;
-          this.router.navigate([tabs.get(id).current.url]);
+          this.router.navigate([tabs[id].current.url]);
           return;
         default:
           console.log('undefined action');
@@ -46,43 +51,43 @@ export class TabsService {
     },
   });
 
-  observableTabs = new Subject<TabEvent>();
+  tabs$ = new Subject<TabEvent>();
 
   constructor(private router: Router) {
-    this.observableTabs.subscribe(this.tabSubscriber);
+    this.tabs$.subscribe(this.tabSubscriber);
 
     this.tabSubscriber.next({
       action: TabAction.ADD,
       payload: {
-        id: 1,
-        tab: new Tab(1, { name: 'Welcome', url: '/welcome' }),
+        id: 0,
+        tab: new Tab(0, { name: 'Welcome', url: '/welcome' }),
       },
     });
   }
 
-  public push(tabInfo: ITab, targetId?: number): void {
+  public push(navigateInfo: INavigation, targetId?: number): void {
     const id: number = targetId ? targetId : this.activeTabId;
-    this.tabs.get(id).push({ ...tabInfo });
-    this.router.navigate([tabInfo.url]);
+    this.tabs[id].push({ ...navigateInfo });
+    this.router.navigate([navigateInfo.url]);
   }
 
   public prev(targetId?: number) {
     const id: number = targetId ? targetId : this.activeTabId;
-    const tab: ITab = this.tabs.get(id).prev();
-    if (tab) {
-      this.router.navigate([tab.url]);
+    const nav: INavigation = this.tabs[id].prev();
+    if (nav) {
+      this.router.navigate([nav.url]);
     }
   }
 
   public next(targetId?: number) {
     const id: number = targetId ? targetId : this.activeTabId;
-    const tab: ITab = this.tabs.get(id).next();
-    if (tab) {
-      this.router.navigate([tab.url]);
+    const nav: INavigation = this.tabs[id].next();
+    if (nav) {
+      this.router.navigate([nav.url]);
     }
   }
 
-  public getTabs(): Map<number, Tab> {
+  public getTabs(): Tab[] {
     return this.tabs;
   }
 
@@ -96,36 +101,28 @@ export class TabsService {
   }
 
   public switchTab(id: number) {
-    this.observableTabs.next({
+    this.tabs$.next({
       action: TabAction.SWITCH,
       payload: { id },
     });
   }
 
-  public addTab(tab: Tab | ITab, id?: number): void {
-    this.observableTabs.next({
+  public addTab(tab: Tab | INavigation): void {
+    this.tabs$.next({
       action: TabAction.ADD,
-      payload: { id, tab },
+      payload: { tab },
     });
   }
 
-  private _addTab(tab: Tab | ITab, id?: number): number {
+  private _addTab(tab: Tab | INavigation): number {
     const { tabs } = this;
     if (tab instanceof Tab) {
-      tabs.set(tab.id, tab);
-      return;
-    }
-
-    if (id) {
-      if (tabs.has(id)) {
-        throw new Error('Tab ID already exists');
-      }
-      tabs.set(id, new Tab(id, { ...tab }));
+      tabs.push(tab);
       return;
     }
 
     const newId = this._genNextId();
-    tabs.set(newId, new Tab(newId, { ...tab }));
+    tabs.push(new Tab(newId, { ...tab }));
     return newId;
   }
 }
