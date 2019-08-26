@@ -15,7 +15,7 @@ import { DatasetVisModule } from '@@modules/dataset-vis/dataset-vis.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

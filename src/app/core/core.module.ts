@@ -6,10 +6,12 @@ import { TabsService } from './tabs/tabs.service';
 
 import { CommandBarComponent } from './command-bar/command-bar.component';
 import { TabsComponent } from './tabs/tabs.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 const declarations = [
   CommandBarComponent,
-  TabsComponent
+  TabsComponent,
+  SidebarComponent,
 ];
 
 @NgModule({
