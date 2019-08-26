@@ -1,5 +1,12 @@
-<nz-tabset [nzTabPosition]="nzTabPosition" [(nzSelectedIndex)]="selectedIndex" (nzSelectChange)="log([$event])" [nzTabBarExtraContent]="addButton" [nzTabBarStyle]="{margin: 0}">
-    <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab.name" (nzSelect)="log(['select', tab])" (nzClick)="switchContent(tab)">
+<nz-tabset
+    [nzSelectedIndex]="tabsService.getActiveTabId()"
+    [nzTabBarExtraContent]="addButton"
+    [nzTabBarStyle]="{margin: 0}"
+>
+    <nz-tab *ngFor="let tab of tabs | keyvalue"
+        [nzTitle]="tab.value.current.name"
+        (nzClick)="switchContent(tab.key)"
+    >
     </nz-tab>
 </nz-tabset>
 <ng-template #addButton>
