@@ -3,9 +3,9 @@
     [nzTabBarExtraContent]="addButton"
     [nzTabBarStyle]="{margin: 0}"
 >
-    <nz-tab *ngFor="let tab of tabs | keyvalue"
-        [nzTitle]="tab.value.current.name"
-        (nzClick)="switchContent(tab.key)"
+    <nz-tab *ngFor="let tab of tabs; index as i"
+        [nzTitle]="tab.current.name"
+        (nzClick)="switchContent(i)"
     >
     </nz-tab>
 </nz-tabset>
