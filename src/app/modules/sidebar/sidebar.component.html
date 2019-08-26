@@ -1,5 +1,5 @@
 <div class="logo"></div>
-<ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+<ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed" (nzClick)="toggleDrawer($event)">
     <li nz-menu-item>
         <i nz-icon nzType="user"></i>
         <span>My Dashboard</span>
@@ -41,3 +41,4 @@
         <span>Precision Marketing</span>
     </li>
 </ul>
+<app-sidebar-drawer></app-sidebar-drawer>
