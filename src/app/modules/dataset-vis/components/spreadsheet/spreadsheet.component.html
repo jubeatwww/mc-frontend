@@ -1,0 +1,26 @@
+<table class="spreadsheet" cellpadding="0" cellspacing="0">
+  <colgroup>
+    <col width="50" />
+    <col *ngFor="let column of spreadsheet.columns" width="50" />
+  </colgroup>
+  <thead>
+    <tr>
+      <td class="cell header-cell" (click)="selectAll()"></td>
+      <td class="cell header-cell" *ngFor="let column of spreadsheet.columns; let i = index"
+        [ngClass]="{'selected': isColumnSelected(i)}" (click)="onColumnSelect(i)">{{column}}
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of spreadsheet.rows; let i = index">
+      <td class="cell header-cell" [ngClass]="{'selected': isRowSelected(i)}" (click)="onRowSelect(i)">{{row}}</td>
+      <td class="cell data-cell" *ngFor="let column of spreadsheet.columns; let j = index"
+        [ngClass]="getGridClass({ row: i, column: j })" (mousedown)="onGridMouseDown({ row: i, column: j })"
+        (mouseenter)="onGridMouseEnter({ row: i, column: j })" (mouseup)="onGridMouseUp()">
+        <ng-container *ngIf="spreadsheet.data[i]">
+          {{spreadsheet.data[i][j]}}
+        </ng-container>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import Dataset from '@antv/data-set';
 
 import { DatasetEntryService } from '@@core/dataset-entry/dataset-entry.service';
+import { mockSpreadSheet } from './mocks/spreadsheet.mock';
 
 @Component({
   selector: 'app-dataset-vis',
@@ -16,6 +16,7 @@ export class DatasetVisComponent implements OnInit {
   forceFit = true;
   height = 400;
   style = { stroke: '#fff', lineWidth: 1 };
+  spreadsheet = mockSpreadSheet;
 
   constructor(private route: ActivatedRoute, private datasetEntryService: DatasetEntryService) { }
 
