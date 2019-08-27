@@ -1,39 +1,32 @@
 <div nz-row>
-    <div nz-col nzSpan="12">
-        <nz-card nzTitle="Database">
-
-        </nz-card>
+    <h1 class="title">{{ title }}</h1>
+    <div class="tools">
+        <button nz-button nzType="primary">Function</button>
+        <button nz-button nzType="primary">Conversion</button>
+        <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="download"></i></button>
+        <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="undo"></i></button>
+        <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="rollback"></i></button>
+        <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="plus"></i></button>
+        <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="edit"></i></button>
+        <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="fullscreen"></i></button>
+        <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="info-circle"></i></button>
     </div>
-
-    <div nz-col nzSpan="12">
-
-        <div id="g2_c1"></div>
-
-        <nz-card>
-
-            <nz-card nzType="inner" nzTitle="Dataset" [nzExtra]="extraTemplate">
-                <nz-radio-group [(ngModel)]="radioValue">
-                    <label nz-radio [ngStyle]="style" nzValue="A">Option A</label>
-                    <label nz-radio [ngStyle]="style" nzValue="B">Option B</label>
-                    <label nz-radio [ngStyle]="style" nzValue="C">Option C</label>
-                    <label nz-radio [ngStyle]="style" nzValue="M">
-                  More...
-                  <input type="text" nz-input *ngIf="radioValue == 'M'" style="width: 100px; margin-left: 10px;" />
-                </label>
-                </nz-radio-group>
-            </nz-card>
-            <nz-card nzType="inner" style="margin-top:16px;" nzTitle="Computation">
-                <nz-input-group [nzSuffix]="suffixTemplate">
-                    <input type="text" nz-input [(ngModel)]="inputValue" placeholder="Calculation..." />
-                </nz-input-group>
-                <ng-container *ngTemplateOutlet="minimalGraph"></ng-container>
-
-                <ng-template #suffixTemplate><i nz-icon nz-tooltip class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="inputValue" (click)="inputValue = null"></i
-              ></ng-template>
-            </nz-card>
-        </nz-card>
-        <ng-template #extraTemplate>
-            <a>Import Dataset</a>
-        </ng-template>
-    </div>
+    <nz-tabset>
+        <nz-tab nzTitle="GRAPHICAL VIEW">
+            <div nz-row>
+                <div nz-col nzSpan="8">
+                    <app-viser [data]="data">
+                    </app-viser>
+                </div>
+                <div nz-col nzSpan="8">
+                    <app-viser [data]="data" [type]="1">
+                    </app-viser>
+                </div>
+                <div nz-col nzSpan="8">3</div>
+            </div>
+        </nz-tab>
+        <nz-tab nzTitle="RAW DATA VIEW">
+            Content of Tab Pane 2
+        </nz-tab>
+    </nz-tabset>
 </div>

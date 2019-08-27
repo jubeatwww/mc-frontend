@@ -14,7 +14,7 @@ const routes: Routes = [
         component: WelcomeComponent
     },
     {
-        path: 'db',
+        path: 'db/:db/value_chain/:valueChain/category/:category',
         component: DatasetVisComponent
     }
 ];
