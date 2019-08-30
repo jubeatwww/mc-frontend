@@ -1,13 +1,13 @@
-<nz-layout>
+<nz-layout *ngIf="isHomeRoute()">
     <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzBreakpoint]="'lg'" [nzCollapsedWidth]="0" [nzZeroTrigger]="zeroTrigger">
         <app-sidebar></app-sidebar>
     </nz-sider>
-
     <nz-layout>
-        <ng-container *ngIf="isHomeRoute()">
+        <ng-container>
             <app-command-bar></app-command-bar>
             <app-tabs></app-tabs>
         </ng-container>
         <router-outlet></router-outlet>
     </nz-layout>
 </nz-layout>
+<router-outlet *ngIf="!isHomeRoute()"></router-outlet>
