@@ -1,0 +1,63 @@
+@cell-border-color: #ccc;
+
+.spreadsheet {
+	border-collapse: separate;
+	table-layout: fixed;
+	white-space: nowrap;
+	empty-cells: show;
+	border: 0px;
+	background-color: #fff;
+	width: 0;
+	border-top: 1px solid transparent;
+	border-left: 1px solid transparent;
+	border-right: 1px solid @cell-border-color;
+	border-bottom: 1px solid @cell-border-color;
+	user-select: none;
+	-webkit-user-drag: none;
+
+	.cell {
+		line-height: 1em;
+		border-top: 1px solid @cell-border-color;
+    border-left: 1px solid @cell-border-color;
+    border-right: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    padding: 4px;
+    overflow: hidden;
+		white-space: nowrap;
+		user-select: none;
+		-webkit-user-drag: none;
+		box-sizing: border-box;
+	}
+
+	.header-cell {
+		background-color: #f3f3f3;
+		text-align: center;
+		cursor: pointer;
+
+		&.selected {
+			background-color: #dcdcdc;
+		}
+	}
+
+	.data-cell {
+		&.selected {
+			background-color: rgba(0, 0, 0, 0.05);
+		}
+
+		&.top-boundary {
+			border-top: 1px solid #000;
+		}
+
+		&.right-boundary {
+			border-right: 1px solid #000;
+		}
+
+		&.bottom-boundary {
+			border-bottom: 1px solid #000;
+		}
+
+		&.left-boundary {
+			border-left: 1px solid #000;
+		}
+	}
+}

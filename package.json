@@ -86,9 +86,11 @@
   },
   "dependencies": {
     "@angular/animations": "^8.2.2",
+    "@antv/data-set": "^0.10.2",
     "@antv/g2": "^3.5.7",
     "ng-alain": "^8.2.0",
-    "ng-zorro-antd": "^8.2.0"
+    "ng-zorro-antd": "^8.2.0",
+    "viser-ng": "^2.4.5"
   },
   "config": {
     "commitizen": {
