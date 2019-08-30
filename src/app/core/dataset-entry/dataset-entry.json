@@ -1,0 +1,140 @@
+[{
+    "name": "Data Browser",
+    "icon": "database",
+    "children": [{
+        "name": "Input Suppliers",
+        "children": [{
+            "name": "Fertilizer Input (by nutrient)",
+            "datasets": []
+        }, {
+            "name": "Fertilizer Input (by product)",
+            "datasets": []
+        }, {
+            "name": "Pesticide Input",
+            "datasets": []
+        }, {
+            "name": "Machinery Input",
+            "datasets": []
+        }]
+    }, {
+        "name": "Producers",
+        "children": [{
+            "name": "Planted Acreage",
+            "datasets": []
+        }, {
+            "name": "Growth Monitor",
+            "datasets": []
+        }, {
+            "name": "Harvested Acreage",
+            "datasets": []
+        }, {
+            "name": "Production",
+            "datasets": []
+        }, {
+            "name": "Producer price",
+            "datasets": []
+        }, {
+            "name": "Cost-benefit",
+            "datasets": []
+        }]
+    }, {
+        "name": "Intermediaries",
+        "children": [{
+            "name": "Balance Sheet",
+            "datasets": []
+        }, {
+            "name": "Supply",
+            "datasets": []
+        }, {
+            "name": "Demand",
+            "datasets": []
+        }, {
+            "name": "Stocks",
+            "datasets": []
+        }, {
+            "name": "Price",
+            "datasets": []
+        }]
+    }, {
+        "name": "Processors",
+        "children": [{
+            "name": "Processed Crop",
+            "datasets": []
+        }, {
+            "name": "Energy",
+            "datasets": []
+        }]
+    }, {
+        "name": "Traders",
+        "children": [{
+            "name": "Trade Matrix",
+            "datasets": []
+        }, {
+            "name": "Export",
+            "datasets": []
+        }, {
+            "name": "Import",
+            "datasets": []
+        }]
+    }, {
+        "name": "Retailers",
+        "children": [{
+            "name": "Food Consumption",
+            "datasets": []
+        }, {
+            "name": "Consumer Price",
+            "datasets": []
+        }]
+    }, {
+        "name": "Macro Indicators",
+        "children": [{
+            "name": "Employment",
+            "datasets": []
+        }, {
+            "name": "Investment",
+            "datasets": []
+        }, {
+            "name": "Economics",
+            "datasets": []
+        }]
+    }, {
+        "name": "GIS",
+        "children": [{
+            "name": "Land Use",
+            "datasets": []
+        }]
+    }]
+}, {
+    "name": "Prediction Modal",
+    "icon": "clock-circle",
+    "children": []
+}, {
+    "name": "Demand Matrix",
+    "icon": "minus-circle",
+
+    "children": []
+}, {
+    "name": "Supply Matrix",
+    "icon": "plus-circle",
+    "children": []
+}, {
+    "name": "Risk Analysis",
+    "icon": "radar-chart",
+    "children": []
+}, {
+    "name": "Supply Chain Mgt",
+    "icon": "car",
+    "children": []
+}, {
+    "name": "Farming Opt",
+    "icon": "control",
+    "children": []
+}, {
+    "name": "Legal Compliance",
+    "icon": "bank",
+    "children": []
+}, {
+    "name": "Precision Marketing",
+    "icon": "shopping-cart",
+    "children": []
+}]

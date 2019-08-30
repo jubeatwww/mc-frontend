@@ -8,8 +8,22 @@ import { Component, OnInit } from '@angular/core';
 export class SidebarDrawerComponent implements OnInit {
   visible = false;
   title: string;
+  content;
+  blockWeight: number;
   close() {
     this.visible = false;
+  }
+  evaluateContent() {
+    const children = this.content.children;
+    const titleWeight = 2 * children.length;
+    let itemWeight = 0;
+    for (const child of children) {
+      itemWeight = itemWeight + child.children.length;
+    }
+    this.blockWeight = (itemWeight + titleWeight) / 3;
+  }
+  debug() {
+      this.evaluateContent();
   }
   ngOnInit() {
   }
