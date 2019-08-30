@@ -1,0 +1,12 @@
+<v-chart [forceFit]="forceFit" [height]="height" [data]="dataset" [scale]="scale">
+    <v-tooltip></v-tooltip>
+    <v-axis></v-axis>
+    <v-legend></v-legend>
+    <ng-template [ngIf]="type === 0">
+        <v-line position="time*value" color="key"></v-line>
+        <v-point position="time*value" color="key" [size]="4" [style]="style" shape="circle"></v-point>
+    </ng-template>
+    <ng-template [ngIf]="type === 1">
+        <v-bar position="time*value" color="key" [adjust]="adjust"></v-bar>
+    </ng-template>
+</v-chart>

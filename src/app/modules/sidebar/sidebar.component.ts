@@ -10,8 +10,8 @@ export class SidebarComponent implements OnInit {
   private sidebarDrawer: SidebarDrawerComponent;
   isCollapsed = false;
 
-  toggleDrawer(e) {
-    this.sidebarDrawer.visible = !this.sidebarDrawer.visible;
+  openDrawer(e) {
+    this.sidebarDrawer.visible = true;
     this.sidebarDrawer.title = e.elementRef.nativeElement.innerText;
   }
   constructor() { }
