@@ -26,7 +26,12 @@
             </div>
         </nz-tab>
         <nz-tab nzTitle="RAW DATA VIEW">
-            <app-spreadsheet *ngFor="let spreadsheet of spreadsheets" [spreadsheet]="spreadsheet"></app-spreadsheet>
+            <div class="spreadsheet-container" *ngFor="let spreadsheet of spreadsheets">
+                <app-spreadsheet [spreadsheet]="spreadsheet"></app-spreadsheet>
+            </div>
+            <div class="spreadsheet-container" style="height: 300px;">
+                <app-spreadsheet [spreadsheet]="mockSpreadsheet"></app-spreadsheet>
+            </div>
         </nz-tab>
     </nz-tabset>
 </div>
