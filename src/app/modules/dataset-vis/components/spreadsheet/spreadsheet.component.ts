@@ -15,6 +15,8 @@ interface SpreadSheetSelectedGridRange {
   column: SpreadSheetRange;
 }
 
+type SelectingType = 'GRID' | 'ROW' | 'COLUMN';
+
 @Component({
   selector: 'app-spreadsheet',
   templateUrl: './spreadsheet.component.html',
@@ -25,24 +27,34 @@ export class SpreadsheetComponent implements OnInit {
   @Input() spreadsheet: SpreadSheet;
 
   private selectedGridRange?: SpreadSheetSelectedGridRange;
-  private selecting = false;
+  private selectingType?: SelectingType;
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  private isInRange(range: SpreadSheetRange, value: number) {
+    return value >= range[0] && value <= range[1];
+  }
+
+  private resolveRange(range1, range2): [number, number] {
+    return [
+      Math.min(range1, range2),
+      Math.max(range1, range2)
+    ];
   }
 
   @HostListener('document:mouseup')
-  mouseUpOutside() {
-    if (this.selecting) {
-      this.selecting = false;
+  onSelectingEnd() {
+    if (this.selectingType) {
+      this.selectingType = undefined;
     }
   }
 
-  onGridMouseDown(grid: SpreadSheetGrid) {
+  onGridSelectStart(grid: SpreadSheetGrid) {
     const { row, column } = grid;
 
-    this.selecting = true;
+    this.selectingType = 'GRID';
     this.selectedGridRange = {
       start: grid,
       current: grid,
@@ -51,28 +63,31 @@ export class SpreadsheetComponent implements OnInit {
     };
   }
 
-  onGridMouseEnter(grid: SpreadSheetGrid) {
-    if (!this.selecting) {
+  onGridSelect(grid: SpreadSheetGrid) {
+    if (!this.selectingType) {
       return;
     }
 
     const { row, column } = grid;
 
-    this.selectedGridRange = {
-      ...this.selectedGridRange,
-      current: grid,
-      row: this.resolveRange(this.selectedGridRange.start.row, row),
-      column: this.resolveRange(this.selectedGridRange.start.column, column)
-    };
+    if (this.selectingType === 'GRID') {
+      this.selectedGridRange = {
+        ...this.selectedGridRange,
+        current: grid,
+        row: this.resolveRange(this.selectedGridRange.start.row, row),
+        column: this.resolveRange(this.selectedGridRange.start.column, column)
+      };
+    } else if (this.selectingType === 'ROW') {
+      this.onRowSelect(row);
+    } else if (this.selectingType === 'COLUMN') {
+      this.onColumnSelect(column);
+    }
   }
 
-  onGridMouseUp() {
-    this.selecting = false;
-  }
-
-  onRowSelect(row: number) {
+  onRowSelectStart(row: number) {
     const column = this.spreadsheet.columns.length - 1;
 
+    this.selectingType = 'ROW';
     this.selectedGridRange = {
       start: { row, column: 0 },
       current: { row, column },
@@ -81,14 +96,57 @@ export class SpreadsheetComponent implements OnInit {
     };
   }
 
-  onColumnSelect(column: number) {
+  onRowSelect(row: number) {
+    if (!this.selectingType) {
+      return;
+    }
+
+    this.selectedGridRange = {
+      ...this.selectedGridRange,
+      current: {
+        ...this.selectedGridRange.current,
+        row,
+      },
+      row: this.resolveRange(this.selectedGridRange.start.row, row),
+    };
+  }
+
+  onColumnSelectStart(column: number) {
     const row = this.spreadsheet.rows.length - 1;
 
+    this.selectingType = 'COLUMN';
     this.selectedGridRange = {
       start: { row: 0, column },
       current: { row, column },
       row: [0, row],
       column: [column, column]
+    };
+  }
+
+  onColumnSelect(column: number) {
+    if (!this.selectingType) {
+      return;
+    }
+
+    this.selectedGridRange = {
+      ...this.selectedGridRange,
+      current: {
+        ...this.selectedGridRange.current,
+        column,
+      },
+      column: this.resolveRange(this.selectedGridRange.start.column, column),
+    };
+  }
+
+  onSelectAll() {
+    const row = this.spreadsheet.rows.length - 1;
+    const column = this.spreadsheet.columns.length - 1;
+
+    this.selectedGridRange = {
+      start: { row: 0, column: 0 },
+      current: { row, column },
+      row: [0, row],
+      column: [0, column]
     };
   }
 
@@ -128,28 +186,5 @@ export class SpreadsheetComponent implements OnInit {
       this.isRowSelected(row) &&
       this.isColumnSelected(column)
     );
-  }
-
-  selectAll() {
-    const row = this.spreadsheet.rows.length - 1;
-    const column = this.spreadsheet.columns.length - 1;
-
-    this.selectedGridRange = {
-      start: { row: 0, column: 0 },
-      current: { row, column },
-      row: [0, row],
-      column: [0, column]
-    };
-  }
-
-  private isInRange(range: SpreadSheetRange, value: number) {
-    return value >= range[0] && value <= range[1];
-  }
-
-  private resolveRange(range1, range2): [number, number] {
-    return [
-      Math.min(range1, range2),
-      Math.max(range1, range2)
-    ];
   }
 }
