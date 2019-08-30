@@ -3,6 +3,8 @@
 .spreadsheet-container {
 	width: 100%;
 	height: 100%;
+	border-top: 1px solid @cell-border-color;
+	border-left: 1px solid @cell-border-color;
 	overflow: auto;
 }
 
@@ -15,18 +17,17 @@
 	border: 0;
 	background-color: #fff;
 	width: 0;
-	border-top: 1px solid transparent;
-	border-left: 1px solid transparent;
-	border-right: 1px solid @cell-border-color;
-	border-bottom: 1px solid @cell-border-color;
+	border: none;
+	border-right: 1px solid transparent;
+	border-bottom: 1px solid transparent;
 	-webkit-user-drag: none;
 
 	.cell {
 		line-height: 1em;
-		border-top: 1px solid @cell-border-color;
-    border-left: 1px solid @cell-border-color;
-    border-right: 1px solid transparent;
-    border-bottom: 1px solid transparent;
+		border-top: 1px solid transparent;
+		border-left: 1px solid transparent;
+		border-right: 1px solid @cell-border-color;
+		border-bottom: 1px solid @cell-border-color;
     padding: 4px;
     overflow: hidden;
 		white-space: nowrap;
