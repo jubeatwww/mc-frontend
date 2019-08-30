@@ -17,6 +17,7 @@ export class DatasetVisComponent implements OnInit {
   height = 400;
   style = { stroke: '#fff', lineWidth: 1 };
   spreadsheets = [];
+  mockSpreadsheet =  mockSpreadSheet
 
   constructor(private route: ActivatedRoute, private datasetEntryService: DatasetEntryService) { }
 
