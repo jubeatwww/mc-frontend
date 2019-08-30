@@ -16,7 +16,7 @@ export class DatasetVisComponent implements OnInit {
   forceFit = true;
   height = 400;
   style = { stroke: '#fff', lineWidth: 1 };
-  spreadsheet = mockSpreadSheet;
+  spreadsheets = [];
 
   constructor(private route: ActivatedRoute, private datasetEntryService: DatasetEntryService) { }
 
@@ -27,7 +27,34 @@ export class DatasetVisComponent implements OnInit {
       entry[key] = this.route.snapshot.paramMap.get(key);
     });
 
-    this.data = this.datasetEntryService.datasets[0].data;
+    this.data = this.datasetEntryService.getDatasetsByCategory(1);
+
+    const { data } = this;
+    if (data.length > 0) {
+      this.spreadsheets = data.map((dataset) => {
+        const spreadsheet = {
+            rows: [],
+            columns: [],
+            data: [],
+        };
+
+        Object.keys(dataset.data[0])
+            .filter(k => k !== 'time')
+            .forEach((k) => {
+            spreadsheet.rows.push(k);
+            spreadsheet.data.push([]);
+        });
+        dataset.data.forEach((d) => {
+            const { rows } = spreadsheet;
+            spreadsheet.columns.push(d.time);
+            rows.forEach((r, i) => {
+               spreadsheet.data[i].push(d[r]);
+            });
+        });
+
+        return spreadsheet;
+      });
+    }
   }
 
 }

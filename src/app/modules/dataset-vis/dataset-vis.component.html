@@ -15,18 +15,18 @@
         <nz-tab nzTitle="GRAPHICAL VIEW">
             <div nz-row>
                 <div nz-col nzSpan="8">
-                    <app-viser [data]="data">
+                    <app-viser [data]="data[0].data">
                     </app-viser>
                 </div>
                 <div nz-col nzSpan="8">
-                    <app-viser [data]="data" [type]="1">
+                    <app-viser [data]="data[1].data" [type]="1">
                     </app-viser>
                 </div>
                 <div nz-col nzSpan="8">3</div>
             </div>
         </nz-tab>
         <nz-tab nzTitle="RAW DATA VIEW">
-            Content of Tab Pane 2
+            <app-spreadsheet *ngFor="let spreadsheet of spreadsheets" [spreadsheet]="spreadsheet"></app-spreadsheet>
         </nz-tab>
     </nz-tabset>
 </div>
