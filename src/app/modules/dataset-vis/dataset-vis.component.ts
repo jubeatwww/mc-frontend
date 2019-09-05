@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { from } from 'rxjs';
+import { take, tap, mergeMap, map } from 'rxjs/operators';
+
 import { DatasetEntryService } from '@@core/dataset-entry/dataset-entry.service';
 import { mockSpreadSheet } from './mocks/spreadsheet.mock';
 
@@ -17,45 +20,61 @@ export class DatasetVisComponent implements OnInit {
   height = 400;
   style = { stroke: '#fff', lineWidth: 1 };
   spreadsheets = [];
-  mockSpreadsheet =  mockSpreadSheet
+
+  public category: string;
+  public valueChain: string;
+  public crop: string;
+
+  public datasets = [];
 
   constructor(private route: ActivatedRoute, private datasetEntryService: DatasetEntryService) { }
 
-  ngOnInit() {
-    const { keys } = this.route.snapshot.paramMap;
-    const entry = {};
-    keys.forEach((key: string) => {
-      entry[key] = this.route.snapshot.paramMap.get(key);
-    });
+  dataset$ = (datasets) => {
+    return from(datasets)
+      .pipe(
+        take(Math.round(Math.random() * 3) + 3),
+        mergeMap(dataset => this.datasetEntryService.getDataset(dataset)),
+      );
+  }
 
-    this.data = this.datasetEntryService.getDatasetsByCategory(1);
-
-    const { data } = this;
-    if (data.length > 0) {
-      this.spreadsheets = data.map((dataset) => {
-        const spreadsheet = {
-            rows: [],
+  private _dataUpdate() {
+    this.datasetEntryService.getCategory(this.category)
+    .subscribe((category: any) => {
+      this.title = category.name;
+      this.dataset$(category.datasets)
+        .subscribe((dataset: any) => {
+          const viserData = [];
+          const spreadsheet = {
+            rows: ['Area', 'Value', 'Unit', 'Flag'],
             columns: [],
-            data: [],
-        };
+            data: [[], [], [], []],
+          };
+          dataset.filter(d => d.area.name === dataset[0].area.name).forEach((d) => {
+            spreadsheet.columns.push(d.time.slice(0, 4));
+            spreadsheet.data[0].push(d.area.name);
+            spreadsheet.data[1].push(d.value);
+            spreadsheet.data[2].push(d.unit.name);
+            spreadsheet.data[3].push(d.flag.name);
 
-        Object.keys(dataset.data[0])
-            .filter(k => k !== 'time')
-            .forEach((k) => {
-            spreadsheet.rows.push(k);
-            spreadsheet.data.push([]);
-        });
-        dataset.data.forEach((d) => {
-            const { rows } = spreadsheet;
-            spreadsheet.columns.push(d.time);
-            rows.forEach((r, i) => {
-               spreadsheet.data[i].push(d[r]);
-            });
-        });
-
-        return spreadsheet;
+            viserData.push({ time: parseInt(d.time.slice(0, 4), 10), value: d.value });
+          });
+          this.spreadsheets.push(spreadsheet);
+          this.datasets.push(viserData);
       });
-    }
+    });
+  }
+
+  ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.crop = params.db;
+      this.category = params.category;
+      this.valueChain = params.valueChain;
+
+      this.datasets = [];
+      this.spreadsheets = [];
+
+      this._dataUpdate();
+    });
   }
 
 }

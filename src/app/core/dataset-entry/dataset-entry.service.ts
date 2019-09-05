@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import sidebarItems from './dataset-entry.json';
 
 interface Database {
   id: number;
@@ -93,8 +95,10 @@ export class DatasetEntryService {
       ],
     },
   ];
+  sidebarItems = sidebarItems;
 
-  constructor() { }
+  baseUrl = 'http://localhost:3002/api';
+  constructor(private http: HttpClient) { }
 
   getDatasetsByCategory(category_id: string | number) {
     let category: Category = null;
@@ -108,5 +112,17 @@ export class DatasetEntryService {
     return datasets_id.map(id =>
       this.datasets.find(d => id === d.id)
     );
+  }
+
+  getValueChain() {
+    return this.http.get<Object[]>(`${this.baseUrl}/value-chain`);
+  }
+
+  getCategory(category: string | number) {
+    return this.http.get(`${this.baseUrl}/category/${category}`);
+  }
+
+  getDataset(dataset) {
+    return this.http.get(`${this.baseUrl}/dataset-content/${dataset.reference}/${dataset.table_name}`);
   }
 }
