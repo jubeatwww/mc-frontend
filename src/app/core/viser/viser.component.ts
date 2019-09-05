@@ -3,6 +3,7 @@ import DataSet from '@antv/data-set';
 import { ViewContainerRefDirective } from '@@shared/directives/view-container-ref.directive';
 
 import { ViserWidgetType, ViserWidgetComponent } from './models/viser-widget';
+import { ViserBarComponent } from './components/viser-widget.component';
 
 @Component({
   selector: 'app-viser',
@@ -56,7 +57,12 @@ export class ViserComponent implements OnInit {
     const { viewContainerRef } = this.viserContainerRef;
     viewContainerRef.clear();
 
-    viewContainerRef.createComponent(componentFactory);
+    const widget = viewContainerRef.createComponent(componentFactory);
+
+    if (this.type === ViserWidgetType.GROUPED_COLUMN
+      && Object.keys(this.data[0]).length <= 2) {
+      widget.instance.adjust = [];
+    }
   }
 
 }

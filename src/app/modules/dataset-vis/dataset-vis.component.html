@@ -14,23 +14,15 @@
     <nz-tabset>
         <nz-tab nzTitle="GRAPHICAL VIEW">
             <div nz-row>
-                <div nz-col nzSpan="8">
-                    <app-viser [data]="data[0].data">
+                <div nz-col nzSpan="8" *ngFor="let dataset of datasets; index as i">
+                    <app-viser [data]="dataset" [type]="i % 2">
                     </app-viser>
                 </div>
-                <div nz-col nzSpan="8">
-                    <app-viser [data]="data[1].data" [type]="1">
-                    </app-viser>
-                </div>
-                <div nz-col nzSpan="8">3</div>
             </div>
         </nz-tab>
         <nz-tab nzTitle="RAW DATA VIEW">
             <div class="spreadsheet-container" *ngFor="let spreadsheet of spreadsheets">
                 <app-spreadsheet [spreadsheet]="spreadsheet"></app-spreadsheet>
-            </div>
-            <div class="spreadsheet-container" style="height: 300px;">
-                <app-spreadsheet [spreadsheet]="mockSpreadsheet"></app-spreadsheet>
             </div>
         </nz-tab>
     </nz-tabset>

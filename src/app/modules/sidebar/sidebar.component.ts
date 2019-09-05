@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SidebarDrawerComponent } from './components/sidebar-drawer/sidebar-drawer.component';
-import {DatasetEntryService} from '../../core/dataset-entry/dataset-entry.service';
+import { DatasetEntryService } from '@@core/dataset-entry/dataset-entry.service';
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -9,19 +10,25 @@ import {DatasetEntryService} from '../../core/dataset-entry/dataset-entry.servic
 export class SidebarComponent implements OnInit {
   @ViewChild(SidebarDrawerComponent, {static: false})
   private sidebarDrawer: SidebarDrawerComponent;
+
   isCollapsed = false;
+  valueChainData = [];
+
+  constructor(private datasetEntryService: DatasetEntryService) { }
+
+  ngOnInit() {
+    this.datasetEntryService.getValueChain()
+      .subscribe(data => this.valueChainData = data);
+  }
+
   openDrawer(e) {
     this.sidebarDrawer.visible = true;
     const id = e.elementRef.nativeElement.value;
     const sidebarItem = this.datasetEntryService.sidebarItems[id];
+
     const title = sidebarItem.name;
     this.sidebarDrawer.title = title;
-    this.sidebarDrawer.content = sidebarItem;
+    this.sidebarDrawer.content = this.valueChainData;
     this.sidebarDrawer.debug();
   }
-  constructor(private datasetEntryService: DatasetEntryService) { }
-
-  ngOnInit() {
-  }
-
 }
