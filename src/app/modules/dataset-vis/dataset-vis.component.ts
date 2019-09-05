@@ -32,7 +32,7 @@ export class DatasetVisComponent implements OnInit {
   dataset$ = (datasets) => {
     return from(datasets)
       .pipe(
-        take(3),
+        take(Math.round(Math.random() * 3) + 3),
         mergeMap(dataset => this.datasetEntryService.getDataset(dataset)),
       );
   }
