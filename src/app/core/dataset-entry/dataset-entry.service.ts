@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import sidebarItems from './dataset-entry.json';
 
 interface Database {
   id: number;
@@ -93,8 +94,9 @@ export class DatasetEntryService {
       ],
     },
   ];
-
-  constructor() { }
+  sidebarItems = sidebarItems;
+  constructor() {
+  }
 
   getDatasetsByCategory(category_id: string | number) {
     let category: Category = null;

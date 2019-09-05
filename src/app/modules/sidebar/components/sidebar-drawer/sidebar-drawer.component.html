@@ -1,0 +1,56 @@
+<nz-drawer nzPlacement="left" [nzMaskClosable]="true" [nzVisible]="visible" [nzWidth]="1000" [nzOffsetX]="200" [nzTitle]="title" (nzOnClose)="close()" [nzKeyboard]="true">
+    <div>
+        <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="6">
+                <nz-card nzTitle="Card title">
+                    <p>Card content</p>
+                </nz-card>
+            </div>
+            <div nz-col [nzSpan]="6">
+                <nz-card nzTitle="Card title">
+                    <p>Card content</p>
+                </nz-card>
+            </div>
+            <div nz-col [nzSpan]="6">
+                <nz-card nzTitle="Card title">
+                    <p>Card content</p>
+                </nz-card>
+            </div>
+            <div nz-col [nzSpan]="6">
+                <nz-card nzTitle="Card title">
+                    <p>Card content</p>
+                </nz-card>
+            </div>
+        </div>
+    </div>
+    <div class="option_list">
+        <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="8">
+                <h4 nz-title>Input Suppliers</h4>
+                <span><button nz-button nzType="link">Fertilizer Input (by nutrient)</button><br/></span>
+                <span><button nz-button nzType="link">Fertilizer Input (by product)</button><br/></span>
+                <span><button nz-button nzType="link">Pesticide Input</button><br/></span>
+                <span><button nz-button nzType="link">Machinery Input</button><br/></span>
+            </div>
+            <div nz-col [nzSpan]="8">
+                <h4 nz-title>Producers</h4>
+                <span><button nz-button nzType="link">Planted Acreage</button><br/></span>
+                <span><button nz-button nzType="link">Growth Monitor</button><br/></span>
+                <span><button nz-button nzType="link">Harvested Acreage</button><br/></span>
+                <span><button nz-button nzType="link">Production</button><br/></span>
+                <span><button nz-button nzType="link">Producer Price</button><br/></span>
+                <span><button nz-button nzType="link">Cost-benefit</button><br/></span>
+
+            </div>
+            <div nz-col [nzSpan]="8">
+                <h4 nz-title>Intermediaries</h4>
+
+            </div>
+            <div nz-col [nzSpan]="8">
+                <h4 nz-title>Inquires</h4>
+
+            </div>
+        </div>
+    </div>
+
+</nz-drawer>

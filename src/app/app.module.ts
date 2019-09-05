@@ -12,10 +12,10 @@ import { AppComponent } from './app.component';
 import { HomeModule } from '@@modules/home/home.module';
 import { WelcomeModule } from '@@modules/welcome/welcome.module';
 import { DatasetVisModule } from '@@modules/dataset-vis/dataset-vis.module';
-
+import { SidebarModule } from '@@modules/sidebar/sidebar.module';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,6 +24,7 @@ import { DatasetVisModule } from '@@modules/dataset-vis/dataset-vis.module';
     AppRoutingModule,
     HomeModule,
     WelcomeModule,
+    SidebarModule,
     DatasetVisModule,
   ],
   bootstrap: [AppComponent]
