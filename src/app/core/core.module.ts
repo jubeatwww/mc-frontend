@@ -11,14 +11,24 @@ import { CommandBarComponent } from './command-bar/command-bar.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { ViserComponent } from './viser/viser.component';
 
+import { ViserLineComponent, ViserBarComponent } from './viser/components/viser-widget.component';
+
 const declarations = [
+  ViserLineComponent,
+  ViserBarComponent,
   CommandBarComponent,
   ViserComponent,
   TabsComponent,
 ];
 
+const entryComponents = [
+  ViserLineComponent,
+  ViserBarComponent,
+];
+
 @NgModule({
   declarations,
+  entryComponents,
   imports: [
     SharedModule,
     ViserModule,
