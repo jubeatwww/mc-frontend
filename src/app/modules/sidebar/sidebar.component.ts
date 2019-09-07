@@ -14,7 +14,7 @@ export class SidebarComponent implements OnInit {
   isCollapsed = false;
   valueChainData = [];
 
-  constructor(private datasetEntryService: DatasetEntryService) { }
+  constructor(public datasetEntryService: DatasetEntryService) { }
 
   ngOnInit() {
     this.datasetEntryService.getValueChain()

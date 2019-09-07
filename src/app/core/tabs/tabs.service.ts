@@ -60,7 +60,10 @@ export class TabsService {
       action: TabAction.ADD,
       payload: {
         id: 0,
-        tab: new Tab(0, { name: 'Welcome', url: '/welcome' }),
+        tab: new Tab(0, {
+          name: 'Fertilizer Input (by nutrient)',
+          url: '/db/wheat/value_chain/input_suppliers/category/fertilizer_input_by_nutrient',
+        }),
       },
     });
   }

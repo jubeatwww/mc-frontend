@@ -1,22 +1,22 @@
-import { Component, OnInit, Input, ViewChild, ComponentFactoryResolver, Type } from '@angular/core';
-import DataSet from '@antv/data-set';
+import { Component, Input, ViewChild, ComponentFactoryResolver, Type, OnChanges } from '@angular/core';
+import * as DataSet from '@antv/data-set';
 import { ViewContainerRefDirective } from '@@shared/directives/view-container-ref.directive';
 
-import { ViserWidgetType, ViserWidgetComponent } from './models/viser-widget';
-import { ViserBarComponent } from './components/viser-widget.component';
+import { ViserWidgetComponents } from './models/viser-widget';
+import { ViserWidgetType } from './components/viser-widget.component';
 
 @Component({
   selector: 'app-viser',
   templateUrl: './viser.component.html',
   styleUrls: ['./viser.component.less']
 })
-export class ViserComponent implements OnInit {
+export class ViserComponent implements OnChanges {
   @Input() type: ViserWidgetType = ViserWidgetType.LINE;
   @Input() height = 400;
   @Input() timeInterval = 'year';
   @Input() data;
   @Input() forceFit = true;
-  scale;
+  scale = [];
   dataset;
 
   @ViewChild(ViewContainerRefDirective, {static: true})
@@ -24,7 +24,7 @@ export class ViserComponent implements OnInit {
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
-  ngOnInit() {
+  ngOnChanges() {
     this._rawDataToDataset();
     this._parseTimeScale();
     this._loadComponent();
@@ -48,11 +48,12 @@ export class ViserComponent implements OnInit {
       dataKey: 'time',
       min: Math.min(...timeList),
       max: Math.max(...timeList),
+      tickCount: timeList.length,
     }];
   }
 
   private _loadComponent() {
-    const GraphComponent: Type<any> = ViserWidgetComponent[this.type];
+    const GraphComponent: Type<any> = ViserWidgetComponents[this.type || ViserWidgetType.LINE];
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(GraphComponent);
     const { viewContainerRef } = this.viserContainerRef;
     viewContainerRef.clear();
