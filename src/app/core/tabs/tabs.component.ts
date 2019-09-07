@@ -8,9 +8,9 @@ import { Tab } from './tab';
   styleUrls: ['./tabs.component.less']
 })
 export class TabsComponent implements OnInit {
-  tabs: Tab[];
+  public tabs: Tab[];
 
-  constructor(private tabsService: TabsService) { }
+  constructor(public tabsService: TabsService) { }
 
   ngOnInit() {
     this.tabs = this.tabsService.getTabs();
@@ -21,7 +21,10 @@ export class TabsComponent implements OnInit {
   }
 
   newTab(): void {
-    this.tabsService.addTab({ name: 'Welcome', url: '/welcome' });
+    this.tabsService.addTab({
+      name: 'Fertilizer Input (by nutrient)',
+      url: '/db/wheat/value_chain/input_suppliers/category/fertilizer_input_by_nutrient'
+    });
   }
 
   log(param) {

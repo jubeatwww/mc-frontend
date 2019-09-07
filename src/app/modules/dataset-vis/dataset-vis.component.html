@@ -14,15 +14,33 @@
     <nz-tabset>
         <nz-tab nzTitle="GRAPHICAL VIEW">
             <div nz-row>
-                <div nz-col nzSpan="8" *ngFor="let dataset of datasets; index as i">
-                    <app-viser [data]="dataset" [type]="i % 2">
-                    </app-viser>
+                <div nz-col nzSpan="8" *ngFor="let dataset of data; index as i">
+                    <ng-container *ngIf="!!dataset">
+                        <h2>{{ dataset.name }}</h2>
+                        <nz-select style="width: 200px;" [(ngModel)]="selectedCrop[dataset.position]" (ngModelChange)="selectCrop($event, dataset.position)">
+                            <nz-option *ngFor="let crop of dataset.cropList" [nzValue]="crop" [nzLabel]="crop"></nz-option>
+                        </nz-select>
+                        <nz-select style="width: 200px;" [(ngModel)]="selectedArea[dataset.position]" (ngModelChange)="selectArea($event, dataset.position)">
+                            <nz-option *ngFor="let area of dataset.areaList" [nzValue]="area" [nzLabel]="area"></nz-option>
+                        </nz-select>
+                        <app-viser *ngIf="dataset.viser.length > 0" [data]="dataset.viser" [type]="i % 2">
+                        </app-viser>
+                    </ng-container>
                 </div>
             </div>
         </nz-tab>
         <nz-tab nzTitle="RAW DATA VIEW">
-            <div class="spreadsheet-container" *ngFor="let spreadsheet of spreadsheets">
-                <app-spreadsheet [spreadsheet]="spreadsheet"></app-spreadsheet>
+            <div class="spreadsheet-container" *ngFor="let dataset of data">
+                <ng-container *ngIf="!!dataset">
+                    <h2>{{ dataset.name }}</h2>
+                    <nz-select style="width: 200px;" [(ngModel)]="selectedCrop[dataset.position]" (ngModelChange)="selectCrop($event, dataset.position)">
+                        <nz-option *ngFor="let crop of dataset.cropList" [nzValue]="crop" [nzLabel]="crop"></nz-option>
+                    </nz-select>
+                    <nz-select style="width: 200px;" [(ngModel)]="selectedArea[dataset.position]" (ngModelChange)="selectArea($event, dataset.position)">
+                        <nz-option *ngFor="let area of dataset.areaList" [nzValue]="area" [nzLabel]="area"></nz-option>
+                    </nz-select>
+                    <app-spreadsheet [spreadsheet]="dataset.spreadsheet"></app-spreadsheet>
+                </ng-container>
             </div>
         </nz-tab>
     </nz-tabset>

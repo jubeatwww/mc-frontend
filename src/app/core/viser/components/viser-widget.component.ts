@@ -1,5 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ViserWidgetType } from '../models/viser-widget';
+
+export enum ViserWidgetType {
+  LINE = 0,
+  GROUPED_COLUMN = 1,
+}
 
 @Component({
   selector: 'app-viser-line',

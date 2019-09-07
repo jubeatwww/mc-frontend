@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
         this.validateForm.controls[i].updateValueAndValidity();
       }
     }
-    this.router.navigate(['/welcome']);
+    this.router.navigate(['/db/wheat/value_chain/input_suppliers/category/fertilizer_input_by_nutrient']);
   }
 
   constructor(private fb: FormBuilder, private router: Router) { }

@@ -1,6 +1,6 @@
 <div class="logo"></div>
 <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed" (nzClick)="openDrawer($event)">
-    <li nz-menu-item *ngFor="let item of this.datasetEntryService.sidebarItems; let i = index" [value]="i">
+    <li nz-menu-item *ngFor="let item of datasetEntryService.sidebarItems; let i = index" [value]="i">
         <i nz-icon [nzType]="item.icon"></i>
         <span>{{item.name}}</span>
     </li>
