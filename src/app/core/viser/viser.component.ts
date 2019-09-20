@@ -43,12 +43,9 @@ export class ViserComponent implements OnChanges {
   }
 
   private _parseTimeScale() {
-    const timeList = this.data.map(d => d.time);
     this.scale = [{
       dataKey: 'time',
-      min: Math.min(...timeList),
-      max: Math.max(...timeList),
-      tickCount: timeList.length,
+      nice: true,
     }];
   }
 
