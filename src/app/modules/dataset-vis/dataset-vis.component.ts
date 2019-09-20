@@ -54,7 +54,6 @@ export class DatasetVisComponent implements OnInit {
         tap(this._setTitleAfterFetchingDatasetsDetail),
         map(this._groupDatasetsDetailByCropName),
         mergeMap(this._parseDatasetsDetailToContent$),
-        map(this._parseStringToDate),
       ).subscribe((dataset: DatasetGroup) => {
         this._parseData(dataset);
       });
@@ -65,7 +64,6 @@ export class DatasetVisComponent implements OnInit {
 
     const viserData = [];
     filteredDataset.forEach((d) => {
-      // const time = new Date(d.time).getFullYear();
       viserData.push({ time: d.time, value: d.value });
     });
 
@@ -76,7 +74,6 @@ export class DatasetVisComponent implements OnInit {
       data: [[], [], []],
     };
     reversedFilteredDataset.forEach((d) => {
-      // const time = new Date(d.time).getFullYear().toString();
       spreadsheet.columns.push(d.time);
       spreadsheet.data[0].push(d.area.name);
       spreadsheet.data[1].push(d.value);
@@ -89,11 +86,14 @@ export class DatasetVisComponent implements OnInit {
   }
 
   private _setTitleAfterFetchingDatasetsDetail = (datasetsDetail: DatasetDetail[]): void => {
+    let title;
     if (datasetsDetail.length > 0) {
-      this.title = datasetsDetail[0].category.name;
+      title = datasetsDetail[0].category.name;
     } else {
-      this.title = this.category;
+      title = this.category;
     }
+
+    this.title = title.replace(/#.*$/g, '').replace(/_/g, ' ').replace(/\b\w/, c => c.toUpperCase());
   }
 
   private _groupDatasetsDetailByCropName = (datasetsDetail: DatasetDetail[]): DatasetGroup[] => {
@@ -136,8 +136,15 @@ export class DatasetVisComponent implements OnInit {
         map((datasetContent: Dataset[]): DatasetGroup => {
           dataset.currentData = datasetContent;
           return dataset;
-        })
+        }),
+        map(this._parseDatasetName),
+        map(this._parseStringToDate),
       );
+  }
+
+  private _parseDatasetName = (dataset: DatasetGroup): DatasetGroup => {
+    dataset.name = dataset.name.replace(/#.*$/g, '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    return dataset;
   }
 
   private _parseStringToDate = (dataset: DatasetGroup): DatasetGroup => {
