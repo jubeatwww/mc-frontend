@@ -64,8 +64,7 @@ export class DatasetVisComponent implements OnInit {
 
     const viserData = [];
     filteredDataset.forEach((d) => {
-      const time = new Date(d.time).getFullYear().toString();
-      viserData.push({ time, value: d.value });
+      viserData.push({ time: d.time, value: d.value });
     });
 
     const reversedFilteredDataset = filteredDataset.reverse();
@@ -75,8 +74,7 @@ export class DatasetVisComponent implements OnInit {
       data: [[], [], []],
     };
     reversedFilteredDataset.forEach((d) => {
-      const time = new Date(d.time).getFullYear().toString();
-      spreadsheet.columns.push(time);
+      spreadsheet.columns.push(d.time);
       spreadsheet.data[0].push(d.area.name);
       spreadsheet.data[1].push(d.value);
       spreadsheet.data[2].push(d.unit.name);
@@ -88,11 +86,14 @@ export class DatasetVisComponent implements OnInit {
   }
 
   private _setTitleAfterFetchingDatasetsDetail = (datasetsDetail: DatasetDetail[]): void => {
+    let title;
     if (datasetsDetail.length > 0) {
-      this.title = datasetsDetail[0].category.name;
+      title = datasetsDetail[0].category.name;
     } else {
-      this.title = this.category;
+      title = this.category;
     }
+
+    this.title = title.replace(/#.*$/g, '').replace(/_/g, ' ').replace(/\b\w/, c => c.toUpperCase());
   }
 
   private _groupDatasetsDetailByCropName = (datasetsDetail: DatasetDetail[]): DatasetGroup[] => {
@@ -135,8 +136,51 @@ export class DatasetVisComponent implements OnInit {
         map((datasetContent: Dataset[]): DatasetGroup => {
           dataset.currentData = datasetContent;
           return dataset;
-        })
+        }),
+        map(this._parseDatasetName),
+        map(this._parseStringToDate),
       );
+  }
+
+  private _parseDatasetName = (dataset: DatasetGroup): DatasetGroup => {
+    dataset.name = dataset.name.replace(/#.*$/g, '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    return dataset;
+  }
+
+  private _parseStringToDate = (dataset: DatasetGroup): DatasetGroup => {
+
+    dataset.currentData.forEach((d) => {
+      if (d.time.match(/\.0$/g, '')) {
+        // pattern 2001.0
+        const newDateString = d.time.replace(/\.0$/g, '')
+        d.time = new Date(newDateString).getFullYear();
+      } else if (d.time.match(/[0-9]{4}\/[0-9]{2}$/g)) {
+        // pattern 2001/02, refer to 2001 ~ 2002
+        const newDateString = d.time.replace(/\/[0-9]{2}$/g, '');
+        d.time = new Date(newDateString).getFullYear();
+      } else if (d.time.match(/[0-9]{4}-[0-9]{2}$/g)) {
+        d.time = d.time.replace('-', '.');
+      } else if (d.time.match(/\/[0-9]{2}@Q([1-4])@[0-9]{2}-[0-9]{2}$/g)) {
+        // pattern 2018/19@Q4@03-05, refer to 2018 ~ 2019, Q4, month 3~5
+        const match = /([0-9]{2})([0-9]{2})\/([0-9]{2})@Q([1-4])@([0-9]{2})-[0-9]{2}$/.exec(d.time);
+        const base = match[1];
+        const firstYear = match[2];
+        const secondYear = match[3];
+        const season = match[4];
+        const seasonBeginMonth = match[5];
+
+        if (season === '4') {
+          d.time = `${base}${secondYear}.${seasonBeginMonth}`;
+        } else {
+          d.time = `${base}${firstYear}.${seasonBeginMonth}`;
+        }
+      } else {
+        d.time = new Date(d.time).getFullYear();
+      }
+    });
+    dataset.currentData = dataset.currentData.filter((d) => !isNaN(d.time));
+
+    return dataset;
   }
 
   private _updateAreaFilterByDataset = (dataset: DatasetGroup) => (datasetContent: Dataset[]): void => {
