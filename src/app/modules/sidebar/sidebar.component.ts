@@ -22,8 +22,12 @@ export class SidebarComponent implements OnInit {
   }
 
   openDrawer(e) {
-    this.sidebarDrawer.visible = true;
     const id = e.elementRef.nativeElement.value;
+
+    if (id !== 0) {
+      return;
+    }
+    this.sidebarDrawer.visible = true;
     const sidebarItem = this.datasetEntryService.sidebarItems[id];
 
     const title = sidebarItem.name;
