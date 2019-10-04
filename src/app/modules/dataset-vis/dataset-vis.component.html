@@ -14,7 +14,7 @@
     <nz-tabset>
         <nz-tab nzTitle="GRAPHICAL VIEW">
             <div nz-row>
-                <div nz-col nzSpan="8" *ngFor="let dataset of data; index as i">
+                <div nz-col nzSpan="8" class="dataset" *ngFor="let dataset of data; index as i">
                     <ng-container *ngIf="!!dataset">
                         <h2>{{ dataset.name }}</h2>
                         <nz-select style="width: 200px;" [(ngModel)]="selectedCrop[dataset.position]" (ngModelChange)="selectCrop($event, dataset.position)">
