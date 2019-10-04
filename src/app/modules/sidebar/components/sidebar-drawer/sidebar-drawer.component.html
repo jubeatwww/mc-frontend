@@ -1,28 +1,4 @@
 <nz-drawer nzPlacement="left" [nzMaskClosable]="true" [nzVisible]="visible" [nzWidth]="1000" [nzOffsetX]="200" [nzTitle]="title" (nzOnClose)="close()" [nzKeyboard]="true">
-    <div>
-        <div nz-row [nzGutter]="8">
-            <div nz-col [nzSpan]="6">
-                <nz-card nzTitle="Card title">
-                    <p>Card content</p>
-                </nz-card>
-            </div>
-            <div nz-col [nzSpan]="6">
-                <nz-card nzTitle="Card title">
-                    <p>Card content</p>
-                </nz-card>
-            </div>
-            <div nz-col [nzSpan]="6">
-                <nz-card nzTitle="Card title">
-                    <p>Card content</p>
-                </nz-card>
-            </div>
-            <div nz-col [nzSpan]="6">
-                <nz-card nzTitle="Card title">
-                    <p>Card content</p>
-                </nz-card>
-            </div>
-        </div>
-    </div>
     <div class="option_list">
         <div nz-row [nzGutter]="8">
             <div nz-col [nzSpan]="8" *ngFor="let chain of content">
@@ -33,5 +9,4 @@
             </div>
         </div>
     </div>
-
 </nz-drawer>
