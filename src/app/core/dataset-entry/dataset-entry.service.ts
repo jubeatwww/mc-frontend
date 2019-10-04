@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { of, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
 import * as sidebarItems from './dataset-entry.json';
 import { DatasetDetail } from './dto/dataset-detail.dto.js';
 import { Dataset } from './dto/dataset.dto.js';
@@ -10,27 +13,38 @@ import { Dataset } from './dto/dataset.dto.js';
 export class DatasetEntryService {
 
   sidebarItems = sidebarItems;
+  valueChain;
 
   baseUrl = 'http://34.80.167.207:3002/api';
   constructor(private http: HttpClient) { }
 
-  getValueChain() {
-    return this.http.get<Object[]>(`${this.baseUrl}/value-chain`);
+  withCache<T>(apiRequestString: string) {
+    const valueChainCache = sessionStorage.getItem(apiRequestString);
+    if (valueChainCache) {
+      return of(JSON.parse(valueChainCache));
+    }
+
+    return this.http.get<T>(`${this.baseUrl}/${apiRequestString}`)
+      .pipe(
+        tap((data) => {
+          sessionStorage.setItem(apiRequestString, JSON.stringify(data));
+        }),
+      );
+  }
+
+  getValueChain$() {
+    return this.withCache<Object[]>('value-chain');
   }
 
   getCategory(category: string | number) {
-    return this.http.get(`${this.baseUrl}/category/${category}`);
+    return this.withCache(`category/${category}`);
   }
 
   getDataset(dataset) {
-    return this.http.get(`${this.baseUrl}/dataset-content/${dataset.reference}/${dataset.table_name}`);
+    return this.withCache<Dataset>(`dataset-content/${dataset.reference}/${dataset.table_name}`);
   }
 
   getDatasetsDetailByCategory(category: string | number) {
-    return this.http.get<DatasetDetail[]>(`${this.baseUrl}/dataset/category/${category}`);
-  }
-
-  getDatasetContent(dataset) {
-    return this.http.get<Dataset>(`${this.baseUrl}/dataset-content/${dataset.reference}/${dataset.table_name}`);
+    return this.withCache<DatasetDetail[]>(`dataset/category/${category}`);
   }
 }
