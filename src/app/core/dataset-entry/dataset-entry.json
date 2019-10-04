@@ -109,31 +109,6 @@
     "icon": "clock-circle",
     "children": []
 }, {
-    "name": "Demand Matrix",
-    "icon": "minus-circle",
-
-    "children": []
-}, {
-    "name": "Supply Matrix",
-    "icon": "plus-circle",
-    "children": []
-}, {
-    "name": "Risk Analysis",
-    "icon": "radar-chart",
-    "children": []
-}, {
-    "name": "Supply Chain Mgt",
-    "icon": "car",
-    "children": []
-}, {
-    "name": "Market Connection",
-    "icon": "control",
-    "children": []
-}, {
-    "name": "Legal Compliance",
-    "icon": "bank",
-    "children": []
-}, {
     "name": "Precision Marketing",
     "icon": "shopping-cart",
     "children": []

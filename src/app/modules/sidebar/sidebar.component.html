@@ -1,8 +1,32 @@
 <div class="logo"></div>
-<ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed" (nzClick)="openDrawer($event)">
-    <li nz-menu-item *ngFor="let item of datasetEntryService.sidebarItems; let i = index" [value]="i">
-        <i nz-icon [nzType]="item.icon"></i>
-        <span>{{item.name}}</span>
-    </li>
+<ul nz-menu
+    nzTheme="dark"
+    nzMode="inline"
+    [nzInlineCollapsed]="isCollapsed"
+    [nzSelectable]="false"
+    (nzClick)="openDrawer($event)"
+>
+    <ng-container *ngFor="let item of datasetEntryService.sidebarItems; let i = index" >
+        <ng-container *ngIf="i === 0; else elseTemplate">
+            <li nz-menu-item
+                [value]="i"
+            >
+                <i nz-icon [nzType]="item.icon"></i>
+                <span>{{item.name}}</span>
+            </li>
+        </ng-container>
+        <ng-template #elseTemplate>
+            <li nz-menu-item
+                nz-tooltip
+                nzTooltipTitle="Coming Soon!"
+                nzTooltipPlacement="right"
+                [value]="i"
+            >
+                <i nz-icon [nzType]="item.icon"></i>
+                <span>{{item.name}}</span>
+            </li>
+        </ng-template>
+    </ng-container>
+
 </ul>
 <app-sidebar-drawer></app-sidebar-drawer>
