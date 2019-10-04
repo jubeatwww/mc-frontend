@@ -32,7 +32,7 @@ export class DatasetEntryService {
       );
   }
 
-  getValueChain$() {
+  getValueChain() {
     return this.withCache<Object[]>('value-chain');
   }
 

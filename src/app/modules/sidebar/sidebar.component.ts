@@ -17,7 +17,7 @@ export class SidebarComponent implements OnInit {
   constructor(public datasetEntryService: DatasetEntryService) { }
 
   ngOnInit() {
-    this.datasetEntryService.getValueChain$()
+    this.datasetEntryService.getValueChain()
       .subscribe(data => this.valueChainData = data);
   }
 

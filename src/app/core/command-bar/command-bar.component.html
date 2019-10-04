@@ -1,6 +1,24 @@
 <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-    <input type="text" nz-input placeholder="input search text" />
+    <input type="text"
+        nz-input
+        placeholder="input search text"
+        [nzAutocomplete]="auto"
+        (ngModelChange)="onChange($event)"
+        [(ngModel)]="inputValue" />
 </nz-input-group>
 <ng-template #suffixIconButton>
     <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
 </ng-template>
+<nz-autocomplete #auto>
+    <nz-auto-optgroup *ngFor="let chain of filteredValueChainData"
+        [nzLabel]="groupTitle">
+        <ng-template #groupTitle>
+            <span>{{ chain.name }}</span>
+        </ng-template>
+        <nz-auto-option *ngFor="let category of chain.categories"
+            [nzLabel]="category.name"
+            [nzValue]="category.code_name">
+            {{ category.name }}
+        </nz-auto-option>
+    </nz-auto-optgroup>
+</nz-autocomplete>
