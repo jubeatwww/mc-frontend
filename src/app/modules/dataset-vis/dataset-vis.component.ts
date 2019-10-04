@@ -156,14 +156,26 @@ export class DatasetVisComponent implements OnInit {
   }
 
   private _updateAreaFilterByDataset = (dataset: DatasetGroup) => (datasetContent: Dataset[]): void => {
+    const defaultAreaFilteredList = ['America', 'United States', 'US'];
     if (datasetContent.length > 0) {
+      let defaultAreaFilter;
       datasetContent.forEach(row => {
         dataset.areaList.add(row.area.name);
+        if (!defaultAreaFilter) {
+          const hasDefaultFilter = defaultAreaFilteredList.some(str => row.area.name.includes(str));
+          if (hasDefaultFilter) {
+            defaultAreaFilter = row.area.name;
+            dataset.areaFilter = defaultAreaFilter;
+          }
+        }
       });
+
+      // set first area name as default if not default value found
       if (!dataset.areaFilter || !dataset.areaList.has(dataset.areaFilter)) {
         dataset.areaFilter = datasetContent[0].area.name;
-        this.selectedArea[dataset.position] = dataset.areaFilter;
       }
+
+      this.selectedArea[dataset.position] = dataset.areaFilter;
     }
   }
 
