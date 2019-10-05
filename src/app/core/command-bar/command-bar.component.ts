@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { TabsService } from '@@core/tabs/tabs.service';
+import { Tab } from '@@core/tabs/tab';
 import { DatasetEntryService } from '../dataset-entry/dataset-entry.service';
 
 @Component({
@@ -13,7 +15,7 @@ export class CommandBarComponent implements OnInit {
   valueChainData = [];
   filteredValueChainData = [];
 
-  constructor(private datasetEntryService: DatasetEntryService) { }
+  constructor(private tabService: TabsService, private datasetEntryService: DatasetEntryService) { }
 
   ngOnInit() {
     this.datasetEntryService.getValueChain()
@@ -45,5 +47,24 @@ export class CommandBarComponent implements OnInit {
       }
     });
     this.filteredValueChainData = filteredValueChainData;
+  }
+
+  onCategorySelected(valueChain, category) {
+    this.tabService.addTab({
+      name: category.name,
+      url: `/db/wheat/value_chain/${valueChain.code_name}/category/${category.code_name}`,
+    });
+  }
+
+  onEnter() {
+    if (this.filteredValueChainData.length
+      && this.filteredValueChainData[0].categories.length) {
+      const valueChain = this.filteredValueChainData[0];
+      const category = valueChain.categories[0];
+      this.tabService.addTab({
+        name: category.name,
+        url: `/db/wheat/value_chain/${valueChain.code_name}/category/${category.code_name}`,
+      });
+    }
   }
 }

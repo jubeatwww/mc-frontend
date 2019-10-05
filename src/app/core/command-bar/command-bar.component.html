@@ -3,6 +3,7 @@
         nz-input
         placeholder="input search text"
         [nzAutocomplete]="auto"
+        (keyup.enter)="onEnter()"
         (ngModelChange)="onChange($event)"
         [(ngModel)]="inputValue" />
 </nz-input-group>
@@ -17,7 +18,9 @@
         </ng-template>
         <nz-auto-option *ngFor="let category of chain.categories"
             [nzLabel]="category.name"
-            [nzValue]="category.code_name">
+            [nzValue]="category.code_name"
+            (click)="onCategorySelected(chain, category)"
+        >
             {{ category.name }}
         </nz-auto-option>
     </nz-auto-optgroup>
