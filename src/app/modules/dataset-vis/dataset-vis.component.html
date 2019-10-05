@@ -11,7 +11,7 @@
         <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="fullscreen"></i></button>
         <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="info-circle"></i></button>
     </div>
-    <nz-tabset>
+    <nz-tabset (nzSelectedIndexChange)="onSelectedIndexChange($event)">
         <nz-tab nzTitle="GRAPHICAL VIEW">
             <div nz-row>
                 <div nz-col nzSpan="8" class="dataset" *ngFor="let dataset of data; index as i">
@@ -23,7 +23,7 @@
                         <nz-select style="width: 200px;" [(ngModel)]="selectedArea[dataset.position]" (ngModelChange)="selectArea($event, dataset.position)">
                             <nz-option *ngFor="let area of dataset.areaList" [nzValue]="area" [nzLabel]="area"></nz-option>
                         </nz-select>
-                        <app-viser *ngIf="dataset.viser.length > 0" [data]="dataset.viser" [type]="i % 2">
+                        <app-viser [hidden]="!(dataset.viser.length > 0)" [data]="dataset.viser" [type]="i % 2" class="dataset-viser">
                         </app-viser>
                     </ng-container>
                 </div>

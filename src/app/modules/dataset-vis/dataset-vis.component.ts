@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { from, Observable } from 'rxjs';
@@ -17,7 +17,7 @@ import { datetimeParser } from './datetime-parser';
   templateUrl: './dataset-vis.component.html',
   styleUrls: ['./dataset-vis.component.less']
 })
-export class DatasetVisComponent implements OnInit {
+export class DatasetVisComponent implements OnInit, AfterViewInit {
   @Input() title = 'Title';
 
   public scale;
@@ -45,9 +45,18 @@ export class DatasetVisComponent implements OnInit {
       this.data = [];
       this.selectedCrop = [];
       this.selectedArea = [];
-
       this._dataUpdate();
     });
+  }
+
+  ngAfterViewInit() {
+    this._dataUpdate();
+  }
+
+  onSelectedIndexChange(index: number) {
+    if (index === 0) {
+      this._dataUpdate();
+    }
   }
 
   private _dataUpdate() {
