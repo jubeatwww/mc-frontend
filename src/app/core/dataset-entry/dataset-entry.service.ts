@@ -27,7 +27,11 @@ export class DatasetEntryService {
     return this.http.get<T>(`${this.baseUrl}/${apiRequestString}`)
       .pipe(
         tap((data) => {
-          sessionStorage.setItem(apiRequestString, JSON.stringify(data));
+          try {
+            sessionStorage.setItem(apiRequestString, JSON.stringify(data));
+          } catch (e) {
+            console.error(e);
+          }
         }),
       );
   }
