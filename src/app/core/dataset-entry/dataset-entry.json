@@ -109,6 +109,10 @@
     "icon": "clock-circle",
     "children": []
 }, {
+    "name": "Vendor Market",
+    "icon": "transaction",
+    "children": []
+}, {
     "name": "Precision Marketing",
     "icon": "shopping-cart",
     "children": []
