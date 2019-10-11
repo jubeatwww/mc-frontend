@@ -1,20 +1,37 @@
 <div nz-row>
     <h1 class="title">{{ title }}</h1>
-    <div class="tools">
-        <button nz-button nzType="primary">Function</button>
-        <button nz-button nzType="primary">Conversion</button>
-        <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="download"></i></button>
-        <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="undo"></i></button>
-        <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="rollback"></i></button>
-        <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="plus"></i></button>
-        <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="edit"></i></button>
-        <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="fullscreen"></i></button>
-        <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="info-circle"></i></button>
-    </div>
-    <nz-tabset (nzSelectedIndexChange)="onSelectedIndexChange($event)">
-        <nz-tab nzTitle="GRAPHICAL VIEW">
-            <div nz-row>
-                <div nz-col nzSpan="8" class="dataset" *ngFor="let dataset of data; index as i">
+    <ng-container *ngIf="data.length; else elseTemplate">
+        <div class="tools">
+            <button nz-button nzType="primary">Function</button>
+            <button nz-button nzType="primary">Conversion</button>
+            <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="download"></i></button>
+            <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="undo"></i></button>
+            <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="rollback"></i></button>
+            <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="plus"></i></button>
+            <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="edit"></i></button>
+            <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="fullscreen"></i></button>
+            <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="info-circle"></i></button>
+        </div>
+        <nz-tabset (nzSelectedIndexChange)="onSelectedIndexChange($event)">
+            <nz-tab nzTitle="GRAPHICAL VIEW">
+                <div nz-row>
+                    <div nz-col nzSpan="8" class="dataset" *ngFor="let dataset of data; index as i">
+                        <ng-container *ngIf="!!dataset">
+                            <h2>{{ dataset.name }}</h2>
+                            <nz-select style="width: 200px;" [(ngModel)]="selectedCrop[dataset.position]" (ngModelChange)="selectCrop($event, dataset.position)">
+                                <nz-option *ngFor="let crop of dataset.cropList" [nzValue]="crop" [nzLabel]="crop"></nz-option>
+                            </nz-select>
+                            <nz-select style="width: 200px;" [(ngModel)]="selectedArea[dataset.position]" (ngModelChange)="selectArea($event, dataset.position)">
+                                <nz-option *ngFor="let area of dataset.areaList" [nzValue]="area" [nzLabel]="area"></nz-option>
+                            </nz-select>
+                            <app-viser [hidden]="!(dataset.viser.length > 0)" [data]="dataset.viser" [type]="i % 2" class="dataset-viser">
+                            </app-viser>
+                        </ng-container>
+                    </div>
+                </div>
+            </nz-tab>
+            <nz-tab nzTitle="RAW DATA VIEW">
+                <div class="spreadsheet-container" *ngFor="let dataset of data">
                     <ng-container *ngIf="!!dataset">
                         <h2>{{ dataset.name }}</h2>
                         <nz-select style="width: 200px;" [(ngModel)]="selectedCrop[dataset.position]" (ngModelChange)="selectCrop($event, dataset.position)">
@@ -23,25 +40,16 @@
                         <nz-select style="width: 200px;" [(ngModel)]="selectedArea[dataset.position]" (ngModelChange)="selectArea($event, dataset.position)">
                             <nz-option *ngFor="let area of dataset.areaList" [nzValue]="area" [nzLabel]="area"></nz-option>
                         </nz-select>
-                        <app-viser [hidden]="!(dataset.viser.length > 0)" [data]="dataset.viser" [type]="i % 2" class="dataset-viser">
-                        </app-viser>
+                        <app-spreadsheet [spreadsheet]="dataset.spreadsheet"></app-spreadsheet>
                     </ng-container>
                 </div>
-            </div>
-        </nz-tab>
-        <nz-tab nzTitle="RAW DATA VIEW">
-            <div class="spreadsheet-container" *ngFor="let dataset of data">
-                <ng-container *ngIf="!!dataset">
-                    <h2>{{ dataset.name }}</h2>
-                    <nz-select style="width: 200px;" [(ngModel)]="selectedCrop[dataset.position]" (ngModelChange)="selectCrop($event, dataset.position)">
-                        <nz-option *ngFor="let crop of dataset.cropList" [nzValue]="crop" [nzLabel]="crop"></nz-option>
-                    </nz-select>
-                    <nz-select style="width: 200px;" [(ngModel)]="selectedArea[dataset.position]" (ngModelChange)="selectArea($event, dataset.position)">
-                        <nz-option *ngFor="let area of dataset.areaList" [nzValue]="area" [nzLabel]="area"></nz-option>
-                    </nz-select>
-                    <app-spreadsheet [spreadsheet]="dataset.spreadsheet"></app-spreadsheet>
-                </ng-container>
-            </div>
-        </nz-tab>
-    </nz-tabset>
+            </nz-tab>
+        </nz-tabset>
+    </ng-container>
+    <ng-template #elseTemplate>
+        <nz-empty [nzNotFoundContent]="contentTpl"></nz-empty>
+        <ng-template #contentTpl>
+            <span> No available data </span>
+        </ng-template>
+    </ng-template>
 </div>
