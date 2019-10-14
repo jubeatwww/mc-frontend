@@ -1,14 +1,13 @@
-<nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+<nz-input-group nzSearch [nzSuffix]="suffixIconSearch">
     <input type="text"
         nz-input
-        placeholder="input search text"
         [nzAutocomplete]="auto"
         (keyup.enter)="onEnter()"
         (ngModelChange)="onChange($event)"
         [(ngModel)]="inputValue" />
 </nz-input-group>
-<ng-template #suffixIconButton>
-    <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
+<ng-template #suffixIconSearch>
+    <i nz-icon nzType="search"></i>
 </ng-template>
 <nz-autocomplete #auto>
     <nz-auto-optgroup *ngFor="let chain of filteredValueChainData"
